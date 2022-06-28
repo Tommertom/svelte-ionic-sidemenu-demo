@@ -21,9 +21,6 @@ cd svelte-ionic-sidemenu-demo
 npm i
 npm run dev
 ```
-N.B. has issues with GOTO in router. It is not chaning the main screen, although it is changing the route
-
-Issue reported with Routify https://github.com/roxiness/routify/issues/463
 
 ## All starters
 * Blank demo - https://github.com/Tommertom/svelte-ionic-blank-demo

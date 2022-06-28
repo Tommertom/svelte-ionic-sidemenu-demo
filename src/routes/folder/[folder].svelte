@@ -1,7 +1,7 @@
 <script lang="ts">
   import { params } from "@roxi/routify";
 
-  let folder = $params.folder;
+  $:folder = $params.folder;
 </script>
 
 <ion-header translucent="true">

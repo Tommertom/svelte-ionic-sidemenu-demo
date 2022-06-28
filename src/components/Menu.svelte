@@ -1,10 +1,9 @@
 <script lang="ts">
   // import { fromFetch } from "rxjs/fetch";
   import { goto } from "@roxi/routify";
-  import { getIonicMenu, height, menuController, width } from "$ionic/svelte";
+  import { getIonicMenu } from "$ionic/svelte";
   import {
     bookmarkOutline,
-    bookmarkSharp,
     paperPlane,
     heart,
     mail,
@@ -23,20 +22,7 @@
   ];
   const labels = ["Family", "Friends", "Notes", "Work", "Travel", "Reminders"];
 
-  const closeAndNavigate = (url) => {
-    // url = "/components/tabs/blabla";
-    console.log("Navigate url", url);
-
-    // path.set(url);
-    $goto(url);
-
-    getIonicMenu("mainmenu")
-      .close(true)
-      .then(() => {});
-  };
-
   const goMenuItem = (page) => {
-    console.log("GO MENU", page);
     $goto("/folder/[folder]", { folder: page.url });
     getIonicMenu("mainmenu")
       .close(true)
