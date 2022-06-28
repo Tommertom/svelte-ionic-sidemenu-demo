@@ -1,58 +1,27 @@
 <script lang="ts">
   // import { fromFetch } from "rxjs/fetch";
-  import { goto, node, url } from "@roxi/routify";
+  import { goto } from "@roxi/routify";
   import { getIonicMenu, height, menuController, width } from "$ionic/svelte";
+  import {
+    bookmarkOutline,
+    bookmarkSharp,
+    paperPlane,
+    heart,
+    mail,
+    archive,
+    trash,
+    warning,
+  } from "ionicons/icons";
 
-  import * as allIonicIcons from "ionicons/icons";
-  import { pwaBeforeInstallPrompt } from "$lib/pwa";
-
-  let hideMenu = true; // a hack because the menu shows before the splash (in Chrome on Windows)
-
-  export let side = "start";
-
-  const getRandomColor = () => {
-    const items = [
-      "secondary",
-      "primary",
-      "danger",
-      "warning",
-      "dark",
-      "medium",
-      "success",
-      "tertiary",
-    ];
-    return items[Math.floor(Math.random() * items.length)];
-  };
-
-  function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
-  let menuItems: Array<{ url: string; label: string; icon: any }> = $node
-    .traverse("/components")
-    .children.map((route) => {
-      let url = route.path;
-
-      //  console.log("Route", url, capitalizeFirstLetter(route.name));
-
-      const label = capitalizeFirstLetter(route.name);
-      if (label === "Tabs") url = "/components/tabs/[...tabs]";
-      // console.log("Route", url, capitalizeFirstLetter(route.name));
-
-      return {
-        url,
-        label,
-        icon: allIonicIcons["home"],
-      };
-    });
-
-  // Randomize the icons
-  const icons = Object.keys(allIonicIcons);
-  menuItems.map((menuItem) => {
-    const iconForMenu = icons[Math.floor(Math.random() * icons.length)];
-    menuItem.icon = allIonicIcons[iconForMenu];
-  });
-  menuItems = [...menuItems];
+  const appPages = [
+    { title: "Inbox", url: "Inbox", icon: mail },
+    { title: "Outbox", url: "Outbox", icon: paperPlane },
+    { title: "Favorites", url: "Favorites", icon: heart },
+    { title: "Archived", url: "Archived", icon: archive },
+    { title: "Trash", url: "Trash", icon: trash },
+    { title: "Spam", url: "Spam", icon: warning },
+  ];
+  const labels = ["Family", "Friends", "Notes", "Work", "Travel", "Reminders"];
 
   const closeAndNavigate = (url) => {
     // url = "/components/tabs/blabla";
@@ -66,77 +35,167 @@
       .then(() => {});
   };
 
-  // hack because of visibility of menu in Chrome/Windows
-  setTimeout(() => {
-    hideMenu = false;
-  }, 100);
+  const goMenuItem = (page) => {
+    console.log("GO MENU", page);
+    $goto("/folder/[folder]", { folder: page.url });
+    getIonicMenu("mainmenu")
+      .close(true)
+      .then(() => {});
+  };
 </script>
 
-<ion-menu {side} content-id="main" menu-id="mainmenu" class:menuhide={hideMenu}>
-  {#if menuItems.length > 0}
-    <ion-header>
-      <ion-toolbar translucent="true">
-        <ion-title>Menu</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
-      <ion-list>
-        {#each menuItems as menuItem, i}
+<ion-menu content-id="main" menu-id="mainmenu">
+  <ion-content class="ion-padding">
+    <ion-list id="inbox-list">
+      <ion-list-header>Inbox</ion-list-header>
+      <ion-note>hi@ionicframework.com</ion-note>
+      {#each appPages as p, i}
+        <ion-menu-toggle auto-hide="false">
           <ion-item
+            routerDirection="root"
             on:click={() => {
-              closeAndNavigate(menuItem.url);
+              goMenuItem(p);
             }}
+            lines="none"
+            detail="false"
           >
-            <ion-icon icon={menuItem.icon} slot="start" color={getRandomColor()} />
-            <ion-label>{menuItem.label}</ion-label>
+            <ion-icon slot="start" icon={p.icon} />
+            <ion-label>{p.title}</ion-label>
           </ion-item>
-        {/each}
+        </ion-menu-toggle>
+      {/each}
+    </ion-list>
 
-        <ion-item />
-
-        {#if $pwaBeforeInstallPrompt}
-          <ion-item
-            on:click={() => {
-              const prompt = $pwaBeforeInstallPrompt;
-              prompt.prompt();
-            }}
-          >
-            <ion-icon icon={allIonicIcons["download"]} slot="start" />
-            <ion-label>Install this app as PWA</ion-label>
-          </ion-item>
-          <ion-item />
-        {/if}
-
-        <ion-item
-          on:click={() => {
-            window.open("https://github.com/Tommertom/svelte-ionic-app", "_blank");
-          }}
-        >
-          <ion-icon icon={allIonicIcons["star"]} slot="start" />
-          <ion-label>Go to GitHub for this app</ion-label>
+    <ion-list id="labels-list">
+      <ion-list-header>Labels</ion-list-header>
+      {#each labels as label}
+        <ion-item lines="none">
+          <ion-icon slot="start" icon={bookmarkOutline} />
+          <ion-label>{label}</ion-label>
         </ion-item>
-        <ion-item
-          on:click={() => {
-            window.open(
-              "https://forum.ionicframework.com/t/ionicsvelte-all-of-ionics-ui-in-one-svelte-app",
-              "_blank"
-            );
-          }}
-        >
-          <ion-icon icon={allIonicIcons["star"]} slot="start" />
-          <ion-label>Go to Ionic Forum</ion-label>
-        </ion-item>
-      </ion-list>
-    </ion-content>
-  {/if}
+      {/each}
+    </ion-list>
+  </ion-content>
 </ion-menu>
 
 <style>
-  ion-item {
-    cursor: pointer;
+  ion-menu ion-content {
+    --background: var(--ion-item-background, var(--ion-background-color, #fff));
   }
 
-  .menuhide {
-    display: none;
+  ion-menu.md ion-content {
+    --padding-start: 8px;
+    --padding-end: 8px;
+    --padding-top: 20px;
+    --padding-bottom: 20px;
+  }
+
+  ion-menu.md ion-list {
+    padding: 20px 0;
+  }
+
+  ion-menu.md ion-note {
+    margin-bottom: 30px;
+  }
+
+  ion-menu.md ion-list-header,
+  ion-menu.md ion-note {
+    padding-left: 10px;
+  }
+
+  ion-menu.md ion-list#inbox-list {
+    border-bottom: 1px solid var(--ion-color-step-150, #d7d8da);
+  }
+
+  ion-menu.md ion-list#inbox-list ion-list-header {
+    font-size: 22px;
+    font-weight: 600;
+
+    min-height: 20px;
+  }
+
+  ion-menu.md ion-list#labels-list ion-list-header {
+    font-size: 16px;
+
+    margin-bottom: 18px;
+
+    color: #757575;
+
+    min-height: 26px;
+  }
+
+  ion-menu.md ion-item {
+    --padding-start: 10px;
+    --padding-end: 10px;
+    border-radius: 4px;
+  }
+
+  ion-menu.md ion-item.selected {
+    --background: rgba(var(--ion-color-primary-rgb), 0.14);
+  }
+
+  ion-menu.md ion-item.selected ion-icon {
+    color: var(--ion-color-primary);
+  }
+
+  ion-menu.md ion-item ion-icon {
+    color: #616e7e;
+  }
+
+  ion-menu.md ion-item ion-label {
+    font-weight: 500;
+  }
+
+  ion-menu.ios ion-content {
+    --padding-bottom: 20px;
+  }
+
+  ion-menu.ios ion-list {
+    padding: 20px 0 0 0;
+  }
+
+  ion-menu.ios ion-note {
+    line-height: 24px;
+    margin-bottom: 20px;
+  }
+
+  ion-menu.ios ion-item {
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --min-height: 50px;
+  }
+
+  ion-menu.ios ion-item.selected ion-icon {
+    color: var(--ion-color-primary);
+  }
+
+  ion-menu.ios ion-item ion-icon {
+    font-size: 24px;
+    color: #73849a;
+  }
+
+  ion-menu.ios ion-list#labels-list ion-list-header {
+    margin-bottom: 8px;
+  }
+
+  ion-menu.ios ion-list-header,
+  ion-menu.ios ion-note {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  ion-menu.ios ion-note {
+    margin-bottom: 8px;
+  }
+
+  ion-note {
+    display: inline-block;
+    font-size: 16px;
+
+    color: var(--ion-color-medium-shade);
+  }
+
+  ion-item.selected {
+    --color: var(--ion-color-primary);
   }
 </style>
