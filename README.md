@@ -30,7 +30,7 @@ N.B. Menucontroller does not see the menu by default - you need to register the 
 <table>
   <tr>
     <th>Main - phone</th>
-    <th>Detail - phone</th>
+    <th>Menu - phone</th>
         <th>Desktop</th>
   </tr>
   <tr>
