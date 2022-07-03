@@ -24,6 +24,24 @@ npm run dev
 
 N.B. Menucontroller does not see the menu by default - you need to register the menu item manually - extra function added to help you with that (`registerMenu(menu-id:string)`) - `<ion-menu {side} content-id="main" menu-id="mainmenu">`see Menu.svelte with working example
 
+
+## Screenshots
+
+<table>
+  <tr>
+    <th>Main screen - phone</th>
+    <th>Detail - phone</th>
+        <th>Desktop</th>
+  </tr>
+  <tr>
+    <td>
+<img alt="IonicSvelte" title="IonicSvelte" src="screenshots/localhost_3000_app_tabs_schedule(iPhone SE).png" width="65%" ></td>
+    <td><img alt="IonicSvelte" title="IonicSvelte" src="screenshots/localhost_3000_app_tabs_schedule(iPhone SE) (1).png" width="45%"></td>
+     <td><img alt="IonicSvelte" title="IonicSvelte" src="screenshots/localhost_3000_app_tabs_schedule_sidepane.png" width="45%"></td>
+     
+  </tr> 
+</table>
+
 ## All starters
 * Blank demo - https://github.com/Tommertom/svelte-ionic-blank-demo
 * Tabs demo - https://github.com/Tommertom/svelte-ionic-tabs-demo
