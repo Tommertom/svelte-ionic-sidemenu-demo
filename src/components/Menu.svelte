@@ -1,7 +1,7 @@
 <script lang="ts">
   // import { fromFetch } from "rxjs/fetch";
   import { goto } from "@roxi/routify";
-  import { getIonicMenu } from "$ionic/svelte";
+  import { getIonicMenu, menuController, registerMenu } from "$ionic/svelte";
   import {
     bookmarkOutline,
     paperPlane,
@@ -11,6 +11,7 @@
     trash,
     warning,
   } from "ionicons/icons";
+  import { onMount } from "svelte";
 
   const appPages = [
     { title: "Inbox", url: "Inbox", icon: mail },
@@ -24,10 +25,12 @@
 
   const goMenuItem = (page) => {
     $goto("/folder/[folder]", { folder: page.url });
-    getIonicMenu("mainmenu")
-      .close(true)
-      .then(() => {});
+    menuController.close("mainmenu");
   };
+
+  onMount(() => {
+    registerMenu("mainmenu");
+  });
 </script>
 
 <ion-menu content-id="main" menu-id="mainmenu">
