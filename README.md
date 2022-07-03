@@ -31,7 +31,7 @@ N.B. Menucontroller does not see the menu by default - you need to register the 
   <tr>
     <th>Main - phone</th>
     <th>Menu - phone</th>
-        <th>Desktop</th>
+        <th>Desktop - sidepane menu</th>
   </tr>
   <tr>
     <td>
