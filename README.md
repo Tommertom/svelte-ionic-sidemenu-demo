@@ -2,7 +2,7 @@
 <h1 align="center"> Ionic Svelte Demo - SIDEMENU</h1> <br>
 <p align="center">
   <a href="https://ionicsvelte.firebaseapp.com">
-    <img alt="IonicSvelte" title="IonicSvelte" src="https://github.com/Tommertom/svelte-ionic-app/raw/master/src/static/assets/svelte-ionic-vite.png" width="350">
+    <img alt="IonicSvelte" title="IonicSvelte" src="https://github.com/Tommertom/svelte-ionic-app/raw/main/src/static/assets/svelte-ionic-vite.png" width="350">
   </a>
 </p>
 <br>
@@ -31,7 +31,7 @@ N.B. Menucontroller does not see the menu by default - you need to register the 
   <tr>
     <th>Main - phone</th>
     <th>Menu - phone</th>
-        <th>Desktop - sidepane menu</th>
+    <th>Desktop - sidepane menu</th>
   </tr>
   <tr>
     <td>
