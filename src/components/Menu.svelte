@@ -1,7 +1,7 @@
 <script lang="ts">
   // import { fromFetch } from "rxjs/fetch";
   import { goto } from "@roxi/routify";
-  import { getIonicMenu, menuController, registerMenu } from "$ionic/svelte";
+  import { menuController, registerMenu } from "$ionic/svelte";
   import {
     bookmarkOutline,
     paperPlane,
